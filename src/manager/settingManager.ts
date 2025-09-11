@@ -19,7 +19,7 @@ interface IPluginSettings {
     
 };
 let defaultSetting: IPluginSettings = {
-    "imageEditor": IMAGE_EDITOR_KEY.TUI,
+    "imageEditor": IMAGE_EDITOR_KEY.FILERBOT,
     "saveType": "local",
 }
 
@@ -38,7 +38,7 @@ export function initSettingProperty() {
         new TabProperty({
             key: "general", iconKey: "iconSettings", props: [
                 new ConfigProperty({ key: "imageEditor", type: "SELECT", options: Object.values( IMAGE_EDITOR_KEY) }),
-                new ConfigProperty({ key: "saveType", type: "SELECT", options: ["local"] }),
+                // new ConfigProperty({ key: "saveType", type: "SELECT", options: ["local"] }),
             ]
         }),
     );

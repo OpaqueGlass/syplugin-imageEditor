@@ -2,12 +2,16 @@
 import { errorPush, logPush } from "@/logger";
 import { fibLangZhCN } from "@/manager/editorLang";
 import { saveImageDistributor } from "@/manager/imageStorageHelper";
+import { isMobile } from "@/syapi";
+import { showPluginMessage } from "@/utils/common";
 import { isZHCN, lang } from "@/utils/lang";
+import { Dialog } from "siyuan";
 
 export class FilerbotEditor {
     private filerobotImageEditor: any = null;
     private editorContainer: HTMLDivElement | null = null;
     private mask: HTMLDivElement | null = null;
+    private unsavedModify: boolean = false;
 
     private getToken() {
         return localStorage.getItem('token') || '';
@@ -23,8 +27,8 @@ export class FilerbotEditor {
         ourFloatView.style.zIndex = "10";
         ourFloatView.style.display = "none";
         ourFloatView.style.position = "fixed";
-        ourFloatView.style.width = "80vw";
-        ourFloatView.style.height = "90vh";
+        ourFloatView.style.width = isMobile() ? "100vw" : "80vw";
+        ourFloatView.style.height = isMobile() ? "100vh" : "80vh";
         ourFloatView.style.top = "50%";
         ourFloatView.style.left = "50%";
         ourFloatView.style.transform = "translate(-50%, -50%)";
@@ -34,7 +38,8 @@ export class FilerbotEditor {
     public async showImageEditor({ source, filePath, element }: { source: string; filePath: string, element: HTMLElement }) {
         this.editorContainer = document.getElementById('og-image-editor-float-view') as HTMLDivElement;
         if (!this.editorContainer) {
-            throw new Error('未找到挂载点 #og-image-editor-float-view');
+            this.destroy();
+            this.init();
         }
         // 创建遮罩层
         this.mask = document.getElementById('og-image-editor-mask') as HTMLDivElement;
@@ -55,14 +60,61 @@ export class FilerbotEditor {
         this.editorContainer.style.display = 'block';
 
         // 点击遮罩关闭编辑器
-        this.mask.onclick = () => {
-            this.editorContainer!.style.display = 'none';
-            this.mask!.style.display = 'none';
-            if (this.filerobotImageEditor) {
-                this.filerobotImageEditor.terminate();
-                this.filerobotImageEditor = null;
+        this.mask.addEventListener("mouseup", (event) => {
+            if (!this.unsavedModify) {
+                this.closeEditor();
+                return;
             }
-        };
+            event.stopPropagation();
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            logPush("unsavedModify", this.unsavedModify);
+            // 创建 Dialog，使用 b3-dialog 样式
+            const dialogContent = `
+                <div class="b3-dialog__body">
+                    <div class="b3-dialog__content">
+                    <div class="ft__breakword">${lang("dialog_leave_without_save")}</div>
+                    <div class="fn__hr"></div>
+                    <div class="ft__smaller ft__on-surface">${lang("dialog_leave_without_save_tip")}</div>
+                    </div>
+                    <div class="b3-dialog__action">
+                    <button class="b3-button b3-button--remove" id="cancelDialogConfirmBtn">${lang("dialog_leave_without_save_cancel")}</button>
+                    <div class="fn__space"></div>
+                    <button class="b3-button b3-button--text" id="confirmDialogConfirmBtn">${lang("dialog_leave_without_save_return")}</button>
+                    </div>
+                </div>
+            `;
+            const dialog = new Dialog({
+                title: '⚠️',
+                content: dialogContent,
+                width: '320px',
+                height: '180px',
+                disableClose: true,
+            });
+            // 绑定按钮事件
+            setTimeout(() => {
+                const saveBtn = document.getElementById('confirmDialogConfirmBtn');
+                const cancelBtn = document.getElementById('cancelDialogConfirmBtn');
+                if (saveBtn) {
+                    saveBtn.onclick = () => {
+                        dialog.destroy();
+                    }
+                }
+                if (cancelBtn) {
+                    cancelBtn.onclick = () => {
+                        dialog.destroy();
+                        this.closeEditor();
+                    };
+                }
+            }, 0);
+        }, true);
+        // this.mask.onclick = () => {
+        //     this.editorContainer!.style.display = 'none';
+        //     this.mask!.style.display = 'none';
+        //     if (this.filerobotImageEditor) {
+        //         this.filerobotImageEditor.terminate();
+        //     }
+        // };
 
         // 首次加载或已销毁时，初始化编辑器
         if (!this.filerobotImageEditor) {
@@ -104,18 +156,23 @@ export class FilerbotEditor {
                 tabsIds: [TABS.ADJUST, TABS.ANNOTATE, TABS.RESIZE, TABS.FILTERS],
                 defaultTabId: TABS.ANNOTATE,
                 defaultToolId: TOOLS.TEXT,
+                onBeforeSave: (editedImageObject: any) => {
+                    return false;
+                },
+                onModify: (c) => {
+                    logPush("modify", c)
+                    this.unsavedModify = true;
+                }
             };
             this.filerobotImageEditor = new FilerobotImageEditor(this.editorContainer, config);
         } else {
             this.filerobotImageEditor.config.source = source;
         }
+        this.unsavedModify = false;
         this.filerobotImageEditor.render({
             onClose: (closingReason: any) => {
                 logPush('Closing reason', closingReason);
-                this.editorContainer!.style.display = 'none';
-                this.mask!.style.display = 'none';
-                this.filerobotImageEditor.terminate();
-                this.filerobotImageEditor = null;
+                this.closeEditor();
             },
             onSave: async (editedImageObject: any, designState: any) => {
                 logPush('保存图片', editedImageObject, designState);
@@ -127,8 +184,15 @@ export class FilerbotEditor {
                 let src = element.getAttribute('src') || '';
                 let base = src.split('?')[0];
                 element.setAttribute('src', base + '?t=' + Date.now());
+                this.unsavedModify = false;
+                return 0;
             },
         });
+    }
+    private closeEditor() {
+        this.editorContainer!.style.display = 'none';
+        this.mask!.style.display = 'none';
+        this.filerobotImageEditor.terminate();
     }
     public destroy() {
         // 移除插入的 script

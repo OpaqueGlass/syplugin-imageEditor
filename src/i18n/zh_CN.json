@@ -1,10 +1,8 @@
 {
     "setting_imageEditor_name": "图片编辑器",
-    "setting_imageEditor_desp": "选择用于图片编辑的工具。",
+    "setting_imageEditor_desp": "选择用于图片编辑的工具。请注意，由于插件未进行样式隔离，切换到TUI编辑器可能导致与其他插件、主题等出现冲突。",
     "setting_imageEditor_option_filerbot": "Filerobot 编辑器",
-    "setting_imageEditor_option_filerbot_desp": "功能丰富，支持多种图片处理操作。",
     "setting_imageEditor_option_tui": "TUI 编辑器",
-    "setting_imageEditor_option_tui_desp": "轻量级，适合基础图片编辑。",
     "setting_saveType_name": "保存方式",
     "setting_saveType_desp": "选择图片保存的方式。",
     "setting_saveType_option_local": "本地保存",
@@ -27,6 +25,7 @@
     "dialog_leave_without_save_tip": "喵🐱？",
     "dialog_leave_without_save_cancel": "直接退出",
     "dialog_leave_without_save_confirm": "保存并退出",
+    "dialog_leave_without_save_return": "返回编辑页面",
 
     "editor_save": "保存",
     "save_failed": "保存失败",

@@ -1,7 +1,7 @@
 import { logPush } from "@/logger";
-import { tuiLang } from "@/manager/editorLang";
+import { tuiDark, tuiLang, tuiLight } from "@/manager/editorLang";
 import { saveImageDistributor } from "@/manager/imageStorageHelper";
-import { isMobile } from "@/syapi";
+import { isDarkMode, isMobile } from "@/syapi";
 import { showPluginMessage } from "@/utils/common";
 import { isZHCN, lang } from "@/utils/lang";
 import { Dialog } from "siyuan";
@@ -18,6 +18,10 @@ export default class TuiEditor {
         // script.src = '/plugins/syplugin-imageEditor/static/tui-image-editor.css';
         // script.async = true;
         // document.head.appendChild(script);
+        const stylePicker = document.createElement("link");
+        stylePicker.href = "/plugins/syplugin-imageEditor/static/tui-color-picker.css";
+        stylePicker.rel = "stylesheet";
+        document.head.appendChild(stylePicker);
         const style = document.createElement('style');
         style.id = 'tui-image-editor-style-fix';
         style.innerHTML = `
@@ -156,6 +160,7 @@ export default class TuiEditor {
                     name: 'image',
                 },
                 theme: {},
+                // theme: isDarkMode() ? tuiDark : tuiLight,
                 menu: ['crop', 'flip', 'rotate', 'draw', 'shape', 'icon', 'text', 'mask', 'filter'],
                 initMenu: 'shape',
                 uiSize: {
