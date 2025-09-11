@@ -1,0 +1,38 @@
+{
+    "setting_imageEditor_name": "图片编辑器",
+    "setting_imageEditor_desp": "选择用于图片编辑的工具。",
+    "setting_imageEditor_option_filerbot": "Filerobot 编辑器",
+    "setting_imageEditor_option_filerbot_desp": "功能丰富，支持多种图片处理操作。",
+    "setting_imageEditor_option_tui": "TUI 编辑器",
+    "setting_imageEditor_option_tui_desp": "轻量级，适合基础图片编辑。",
+    "setting_saveType_name": "保存方式",
+    "setting_saveType_desp": "选择图片保存的方式。",
+    "setting_saveType_option_local": "本地保存",
+    "setting_saveType_option_local_desp": "将图片保存到本地文件系统。",
+    "setting_column_none_name": "无栏目",
+    "addTopBarIcon": "使用插件添加一个顶栏按钮",
+    "cancel": "取消",
+    "save": "保存",
+    "byeMenu": "再见，菜单！",
+    "helloPlugin": "你好，插件！",
+    "byePlugin": "再见，插件！",
+    "showDialog": "弹出一个对话框",
+    "removedData": "数据已删除",
+    "setting_panel_title": "图片编辑器插件设置",
+    
+    "editor_filerbot_text_default": "双击开始编辑，Ctrl+Enter生效",
+    "open_with_editor": "使用图片编辑器打开",
+
+    "dialog_leave_without_save": "存在未保存的更改",
+    "dialog_leave_without_save_tip": "喵🐱？",
+    "dialog_leave_without_save_cancel": "直接退出",
+    "dialog_leave_without_save_confirm": "保存并退出",
+
+    "editor_save": "保存",
+    "save_failed": "保存失败",
+    "save_success": "保存成功",
+
+    "settingpage_general_name": "通用",
+    "settingpage_settingave_name": "设置项保存",
+    "settingpage_about_name": "关于"
+}

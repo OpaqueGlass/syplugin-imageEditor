@@ -1,0 +1,39 @@
+{
+    "setting_imageEditor_name": "Image Editor",
+    "setting_imageEditor_desp": "Select the tool for image editing.",
+    "setting_imageEditor_option_filerbot": "Filerobot Editor",
+    "setting_imageEditor_option_filerbot_desp": "Feature-rich, supports various image operations.",
+    "setting_imageEditor_option_tui": "TUI Editor",
+    "setting_imageEditor_option_tui_desp": "Lightweight, suitable for basic image editing.",
+    "setting_saveType_name": "Save Method",
+    "setting_saveType_desp": "Choose how to save images.",
+    "setting_saveType_option_local": "Save Locally",
+    "setting_saveType_option_local_desp": "Save images to the local file system.",
+    "setting_column_none_name": "No Column",
+    "addTopBarIcon": "Add a top bar button using the plugin",
+    "cancel": "Cancel",
+    "save": "Save",
+    "byeMenu": "Goodbye, menu!",
+    "helloPlugin": "Hello, plugin!",
+    "byePlugin": "Goodbye, plugin!",
+    "showDialog": "Show a dialog",
+    "removedData": "Data has been deleted",
+    "setting_panel_title": "Image Editor Plugin Settings",
+
+    "editor_filerbot_text_default": "Double-click to edit, Ctrl+Enter to apply",
+    "open_with_editor": "Open with Image Editor",
+
+    "dialog_leave_without_save": "There are unsaved changes",
+    "dialog_leave_without_save_tip": "Meow🐱?",
+    "dialog_leave_without_save_cancel": "Leave without saving",
+    "dialog_leave_without_save_confirm": "Save & Exit",
+
+    "editor_save": "Save",
+
+    "save_failed": "Save Failed: ",
+    "save_success": "Saved Successfully",
+
+    "settingpage_general_name": "General",
+    "settingpage_settingave_name": "Save Settings",
+    "settingpage_about_name": "About"
+}
