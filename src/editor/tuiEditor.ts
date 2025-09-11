@@ -1,4 +1,4 @@
-import { debugPush, logPush, warnPush } from "@/logger";
+import { logPush } from "@/logger";
 import { tuiLang } from "@/manager/editorLang";
 import { saveImageDistributor } from "@/manager/imageStorageHelper";
 import { isMobile } from "@/syapi";
@@ -13,9 +13,11 @@ export default class TuiEditor {
     private editorContainer: HTMLDivElement | null = null;
     private mask: HTMLDivElement | null = null;
     private unsavedModify: boolean = false;
-    private shadowRoot: ShadowRoot | null = null;
-
     public async init() {
+        // const script = document.createElement('script');
+        // script.src = '/plugins/syplugin-imageEditor/static/tui-image-editor.css';
+        // script.async = true;
+        // document.head.appendChild(script);
         const style = document.createElement('style');
         style.id = 'tui-image-editor-style-fix';
         style.innerHTML = `
@@ -26,10 +28,8 @@ export default class TuiEditor {
             display: none !important;
         }
         `;
-        const style2 = document.createElement('link');
-        style2.id = 'tui-image-editor-style';
-        style2.rel = 'stylesheet';
-        style2.href = "/plugins/syplugin-imageEditor/static/tui-image-editor.css";
+        const head = document.getElementsByTagName('head')[0];
+        head.appendChild(style);
 
         const ourFloatView = document.createElement('div');
         ourFloatView.id = 'og-image-editor-float-view';
@@ -41,14 +41,7 @@ export default class TuiEditor {
         ourFloatView.style.top = "50%";
         ourFloatView.style.left = "50%";
         ourFloatView.style.transform = "translate(-50%, -50%)";
-
-        // Attach shadowRoot
-        this.shadowRoot = ourFloatView.attachShadow({ mode: 'open' });
-        // this.shadowRoot.appendChild(style);
-        this.shadowRoot.appendChild(style2);
         document.body.appendChild(ourFloatView);
-        const head = document.getElementsByTagName('head')[0];
-        head.appendChild(style);
     }
 
     private closeEditor() {
@@ -63,19 +56,14 @@ export default class TuiEditor {
     }
 
     public async showImageEditor({ source, filePath, element }: { source: string; filePath: string, element: HTMLElement }) {
+        // 获取/创建浮层容器
         this.editorContainer = document.getElementById('og-image-editor-float-view') as HTMLDivElement;
-        logPush("edi", this.editorContainer)
         if (!this.editorContainer) {
             this.destroy();
             this.init();
         }
-
-        if (!this.shadowRoot) {
-            console.error('ShadowRoot not initialized.');
-            return;
-        }
-
-        this.mask = this.shadowRoot.getElementById('og-image-editor-mask') as HTMLDivElement;
+        // 创建遮罩层
+        this.mask = document.getElementById('og-image-editor-mask') as HTMLDivElement;
         if (!this.mask) {
             this.mask = document.createElement('div');
             this.mask.id = 'og-image-editor-mask';
@@ -92,28 +80,20 @@ export default class TuiEditor {
         this.mask.style.display = 'block';
         this.editorContainer.style.display = 'block';
 
-        let editorDiv = this.shadowRoot.getElementById('tui-image-editor-container') as HTMLDivElement;
+        // 创建编辑器挂载点
+        let editorDiv = document.getElementById('tui-image-editor-container') as HTMLDivElement;
         if (!editorDiv) {
             editorDiv = document.createElement('div');
             editorDiv.id = 'tui-image-editor-container';
             editorDiv.style.width = '100%';
             editorDiv.style.height = '100%';
-            editorDiv.style.zIndex = "10";
-            this.shadowRoot.appendChild(editorDiv);
+            this.editorContainer.appendChild(editorDiv);
         } else {
+            // 清空内容
             editorDiv.innerHTML = '';
         }
 
-        // fetch("/plugins/syplugin-imageEditor/static/tui.svg")
-        // .then(res => res.text())
-        // .then(txt => {
-        //     const parser = new DOMParser();
-        //     const doc = parser.parseFromString(txt, "image/svg+xml");
-        //     const svgNode = doc.documentElement;
-        //     this.shadowRoot.appendChild(svgNode);
-        // });
-
-
+        // 点击遮罩关闭编辑器
         this.mask.onclick = () => {
             if (!this.unsavedModify) {
                 this.closeEditor();
@@ -169,7 +149,6 @@ export default class TuiEditor {
             }, 0);
 
         }
-
         const options = {
             includeUI: {
                 loadImage: {
@@ -184,21 +163,19 @@ export default class TuiEditor {
                     height: '100%',
                 },
                 menuBarPosition: 'bottom',
-                locale: isZHCN() ? tuiLang : undefined
+                locale: isZHCN() ? tuiLang: undefined
             },
-            cssMaxWidth: isMobile() ? document.documentElement.clientWidth : 700,
-            cssMaxHeight: isMobile() ? document.documentElement.clientHeight : 500,
+            cssMaxWidth: isMobile()? document.documentElement.clientWidth : 700,
+            cssMaxHeight: isMobile()? document.documentElement.clientHeight : 500,
             selectionStyle: {
                 cornerSize: 20,
                 rotatingPointOffset: 70,
             },
             usageStatistics: false,
         };
-
-        // @ts-ignore
-        this.imageEditor = new ImageEditor(editorDiv, options);
-        logPush("editor", this.imageEditor);
         
+        // @ts-ignore
+        this.imageEditor = new ImageEditor('#tui-image-editor-container', options);
         this.unsavedModify = false;
         this.imageEditor.on('objectAdded', (props) => {
             logPush('objectAdded', props);
@@ -221,19 +198,13 @@ export default class TuiEditor {
             this.unsavedModify = true;
         });
         const that = this;
-        setTimeout(() => {
+        setTimeout(()=>{
             that.imageEditor.on('undoStackChanged', (length) => {
                 logPush('undoStackChanged', length);
                 if (length > 0) {
                     that.unsavedModify = true;
                 }
             });
-            logPush("aaa", that.shadowRoot.querySelectorAll("svg use"))
-                that.shadowRoot.querySelectorAll("svg use").forEach((el: any) => {
-                    const href = el.getAttributeNS("http://www.w3.org/1999/xlink", "href");
-                    debugPush("doing")
-                    el.setAttributeNS("http://www.w3.org/1999/xlink", "href", "/plugins/syplugin-imageEditor/static/tui.svg" + href);
-                });
         }, 1000);
 
         // 添加保存按钮
@@ -272,10 +243,12 @@ export default class TuiEditor {
     }
 
     public destroy() {
-        const mask = this.shadowRoot?.getElementById('og-image-editor-mask');
+        // 移除遮罩层
+        const mask = document.getElementById('og-image-editor-mask');
         if (mask && mask.parentNode) {
             mask.parentNode.removeChild(mask);
         }
+        // 移除浮层容器
         const floatView = document.getElementById('og-image-editor-float-view');
         if (floatView && floatView.parentNode) {
             floatView.parentNode.removeChild(floatView);
