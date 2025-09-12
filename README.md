@@ -4,6 +4,10 @@
 
 > Edit note image with tui-image-editor or filerobot-image-editor in [siyuan-note](https://github.com/siyuan-note/siyuan/).
 
+> [!WARNING]
+> 
+> Please note before use that the plugin introduces an (some) open source image editor, and there is no style isolation, which may conflict with themes, plugins, CSS/JS. 
+
 ## Quick Start
 
 - Download from the marketplace **or**:  

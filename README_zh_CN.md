@@ -4,6 +4,10 @@
 
 > 在[思源笔记](https://github.com/siyuan-note/siyuan/)中使用开源图片编辑器修改本地笔记图片。
 
+> [!WARNING]
+> 
+> 使用前请注意，插件引入了开源的图片编辑器，且未做样式隔离，可能和主题、插件、CSS/JS存在冲突。
+
 ## 快速开始
 
 - 从集市下载 或 1、解压Release中的`package.zip`，2、将文件夹移动到`工作空间/data/plugins/`，3、并将文件夹重命名为`syplugin-imageEditor`;
