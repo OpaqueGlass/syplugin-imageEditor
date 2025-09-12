@@ -28,8 +28,9 @@ export function initImageEditor() {
 export function changeEditor(editorKey: string) {
     if (currentEditor) {
         currentEditor.destroy();
+        logPush("destroy")
     }
-    logPush("调整编辑器是", editorKey);
+    logPush("调整编辑器到", editorKey);
     currentEditor = EDITOR[editorKey] || EDITOR[DEFAULT_EDITOR];
     if (!currentEditor.isAvailable()) {
         logPush("编辑器不可用", editorKey);

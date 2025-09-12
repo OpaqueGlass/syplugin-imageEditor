@@ -46,13 +46,10 @@ export default class OGSamplePlugin extends Plugin {
         loadSettings().then(()=>{
             this.myEventHandler.bindHandler();
             setStyle();
-            initImageEditor();
         }).catch((e)=>{
             showMessage("插件载入设置项失败。Load plugin settings faild. " + this.name);
             errorPush(e);
         });
-        // 载入自定义 JS 文件
-        initImageEditor();
     }
 
     onunload(): void {

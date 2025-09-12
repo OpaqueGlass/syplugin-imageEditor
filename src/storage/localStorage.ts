@@ -32,7 +32,7 @@ export default class LocalStorage extends BaseStorage {
         const data = new FormData();
         data.append('path', path);
         data.append('isDir', 'false');
-        data.append('modTime', Math.floor(Date.now() / 1000).toString());
+        // data.append('modTime', Date.now().toString());
         data.append('file', file);
         const result = await fetch(url, {
             body: data,

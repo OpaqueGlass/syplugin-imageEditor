@@ -210,9 +210,10 @@ export class FilerbotEditor extends BaseImageEditor {
             mask.parentNode.removeChild(mask);
         }
         // 移除浮层容器
-        const floatView = document.getElementById('og-image-editor-float-view');
-        if (floatView && floatView.parentNode) {
-            floatView.parentNode.removeChild(floatView);
-        }
+        document.querySelectorAll("#og-image-editor-float-view").forEach((child) => {
+            child.remove();
+        });
+        this.filerobotImageEditor?.terminate();
+        this.filerobotImageEditor = null;
     }
 }
