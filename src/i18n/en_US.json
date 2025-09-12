@@ -1,6 +1,6 @@
 {
     "setting_imageEditor_name": "Image Editor",
-    "setting_imageEditor_desp": "Select the tools for picture editing. Note that switching to the TUI editor may cause conflicts with other plug-ins, themes, etc. because plug-ins are not style-isolated.",
+    "setting_imageEditor_desp": "Select the tools for picture editing. Note that switching to the TUI editor may cause conflicts with other plug-ins, themes, etc.) because plug-ins are not style-isolated.",
     "setting_imageEditor_option_filerbot": "Filerobot Editor",
     "setting_imageEditor_option_tui": "TUI Editor",
     "setting_saveType_name": "Save Method",
@@ -23,6 +23,7 @@
 
     "dialog_leave_without_save": "There are unsaved changes",
     "dialog_leave_without_save_tip": "Meow🐱?",
+    "dialog_leave_without_save_tip_dog": "Woof🐶!",
     "dialog_leave_without_save_cancel": "Leave without saving",
     "dialog_leave_without_save_confirm": "Save & Exit",
     "dialog_leave_without_save_return": "Cancel & Return Edit Page",
@@ -34,5 +35,38 @@
 
     "settingpage_general_name": "General",
     "settingpage_settingave_name": "Save Settings",
-    "settingpage_about_name": "About"
+    "settingpage_about_name": "About",
+
+    "local_editor_frontend_error": "The current frontend environment does not support invoking the local editor; only the desktop client is supported.",
+    "local_editor_backend_error": "The current backend environment does not support invoking the local editor.",
+
+    "setting_about_name": "About",
+    "setting_about_desp": "Translator: GPT 4o-mini & OpaqueGlass;<br>Developer: <a target='_blank' href='https://github.com/OpaqueGlass'>OpaqueGlass</a>；<br/>Feedback & sponsor: <a target='_blank' href='https://github.com/OpaqueGlass/syplugin-imageEditor'>github</a>;<br/>Released under <a target='_blank' href='https://www.gnu.org/licenses/agpl-3.0.html'>AGPLv3</a> license;<br/>Read 'README' file before using it.",
+
+    "dialog_external_editor_wait_tip": "After editing, please save manually in the external editor. Once you save and close the external editor, click Refresh. If the editor fails to start, please check the following information (exit code, command, and arguments).",
+    "dialog_external_editor_cancel": "Cancel",
+    "dialog_external_editor_refresh": "Refresh",
+    "dialog_external_editor_title": "Waiting for editing to finish...",
+    "dialog_external_editor_exitcode": "Exit Code: ",
+    "dialog_external_editor_cmd": "CMD: ",
+    "dialog_external_editor_args": "args: ",
+    "msg_call_external_editor_failed": "Local editor call failed, error message: ",
+    "msg_not_set_exec_path": "Please set the local editor path in plugin settings. ",
+    "msg_called_external_editor": "The local editor has been invoked. Please save manually and close the editor when editing is complete. ",
+    "msg_not_select_path": "Not Select A Valid Path",
+    "only_available_in_client": "Only Available in Client",
+
+    "setting_mainTips_name": "Tips",
+    "setting_mainTips_desp": "1) Settings are distinguished by siyuan-systemId, and different systems have independent settings. 2) The local editor may lock the image, causing SiYuan to fail to acquire the lock and exit directly.",
+    "setting_imageEditor_option_filerbot_desp": "Filerobot Editor",
+    "setting_imageEditor_option_tui_desp": "TUI Editor",
+    "setting_imageEditor_option_local": "Local Editor",
+    "setting_imageEditor_option_local_desp": "___",
+    "setting_localEditorPath_name": "Local Image Editor Program Path",
+    "setting_localEditorPath_desp": "Select or enter the path of the local image editor.",
+    "setting_localEditorArgs_name": "Local Editor Arguments",
+    "setting_localEditorArgs_desp": "One argument per line, which should include <code>%%PATH%%</code>, and it will be replaced with the actual image path.",
+    "setting_localEditorWaitingDialog_name": "Enable Waiting Dialog",
+    "setting_localEditorWaitingDialog_desp": "Show a waiting dialog when the local editor is called.",
+    "settingpage_none_name": "No Column"
 }

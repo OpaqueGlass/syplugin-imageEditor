@@ -2,7 +2,7 @@
 
 [English](./README.md)
 
-> 在思源笔记中使用开源图片编辑器修改本地笔记图片。
+> 在[思源笔记](https://github.com/siyuan-note/siyuan/)中使用开源图片编辑器修改本地笔记图片。
 
 ## 快速开始
 

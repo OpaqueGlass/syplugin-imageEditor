@@ -6,8 +6,9 @@ import { isMobile } from "@/syapi";
 import { showPluginMessage } from "@/utils/common";
 import { isZHCN, lang } from "@/utils/lang";
 import { Dialog } from "siyuan";
+import BaseImageEditor from "./baseImageEditor";
 
-export class FilerbotEditor {
+export class FilerbotEditor extends BaseImageEditor {
     private filerobotImageEditor: any = null;
     private editorContainer: HTMLDivElement | null = null;
     private mask: HTMLDivElement | null = null;
@@ -36,6 +37,7 @@ export class FilerbotEditor {
     }
 
     public async showImageEditor({ source, filePath, element }: { source: string; filePath: string, element: HTMLElement }) {
+        
         this.editorContainer = document.getElementById('og-image-editor-float-view') as HTMLDivElement;
         if (!this.editorContainer) {
             this.destroy();
@@ -73,9 +75,8 @@ export class FilerbotEditor {
             const dialogContent = `
                 <div class="b3-dialog__body">
                     <div class="b3-dialog__content">
-                    <div class="ft__breakword">${lang("dialog_leave_without_save")}</div>
+                    <div class="ft__breakword">${lang("dialog_leave_without_save_tip")}</div>
                     <div class="fn__hr"></div>
-                    <div class="ft__smaller ft__on-surface">${lang("dialog_leave_without_save_tip")}</div>
                     </div>
                     <div class="b3-dialog__action">
                     <button class="b3-button b3-button--remove" id="cancelDialogConfirmBtn">${lang("dialog_leave_without_save_cancel")}</button>
@@ -85,7 +86,7 @@ export class FilerbotEditor {
                 </div>
             `;
             const dialog = new Dialog({
-                title: '⚠️',
+                title: '⚠️' + lang("dialog_leave_without_save"),
                 content: dialogContent,
                 width: '320px',
                 height: '180px',
@@ -193,6 +194,9 @@ export class FilerbotEditor {
         this.editorContainer!.style.display = 'none';
         this.mask!.style.display = 'none';
         this.filerobotImageEditor.terminate();
+    }
+    public isAvailable() {
+        return true;
     }
     public destroy() {
         // 移除插入的 script

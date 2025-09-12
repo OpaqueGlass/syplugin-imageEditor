@@ -89,7 +89,7 @@ export class TabProperty {
             this.props = props;
         } else {
             this.props = {"none": props};
-            this.columnNames.push(lang(`setting_column_none_name`));
+            this.columnNames.push("none");
             this.columnKeys.push("none");
         }
     }

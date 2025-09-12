@@ -16,6 +16,7 @@ type IConfigPropertyType =
     "TEXTAREA" |
     "SWITCH" |
     "ORDER" |
+    "PATH" |
     "TIPS";
 
 type ITabProperty = {

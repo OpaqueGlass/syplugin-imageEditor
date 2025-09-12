@@ -61,11 +61,14 @@ export default class TuiEditor {
 
     public async showImageEditor({ source, filePath, element }: { source: string; filePath: string, element: HTMLElement }) {
         // 获取/创建浮层容器
+        // 获取/创建浮层容器
         this.editorContainer = document.getElementById('og-image-editor-float-view') as HTMLDivElement;
         if (!this.editorContainer) {
             this.destroy();
             this.init();
         }
+        // 创建遮罩层
+        this.mask = document.getElementById('og-image-editor-mask') as HTMLDivElement;
         // 创建遮罩层
         this.mask = document.getElementById('og-image-editor-mask') as HTMLDivElement;
         if (!this.mask) {
@@ -92,11 +95,14 @@ export default class TuiEditor {
             editorDiv.style.width = '100%';
             editorDiv.style.height = '100%';
             this.editorContainer.appendChild(editorDiv);
+            this.editorContainer.appendChild(editorDiv);
         } else {
+            // 清空内容
             // 清空内容
             editorDiv.innerHTML = '';
         }
 
+        // 点击遮罩关闭编辑器
         // 点击遮罩关闭编辑器
         this.mask.onclick = () => {
             if (!this.unsavedModify) {
@@ -108,29 +114,29 @@ export default class TuiEditor {
             const dialogContent = `
                 <div class="b3-dialog__body">
                   <div class="b3-dialog__content">
-                    <div class="ft__breakword">${lang("dialog_leave_without_save")}</div>
-                    <div class="fn__hr"></div>
-                    <div class="ft__smaller ft__on-surface">${lang("dialog_leave_without_save_tip")}</div>
+                    <div class="ft__breakword">${lang("dialog_leave_without_save_tip_dog")}</div>
                   </div>
                   <div class="b3-dialog__action">
                     <button class="b3-button b3-button--remove" id="cancelDialogConfirmBtn">${lang("dialog_leave_without_save_cancel")}</button>
                     <div class="fn__space"></div>
                     <button class="b3-button b3-button--text" id="confirmDialogConfirmBtn">${lang("dialog_leave_without_save_confirm")}</button>
+                    <div class="fn__space"></div>
+                    <button class="b3-button b3-button--text" id="returnDialogConfirmBtn">${lang("dialog_leave_without_save_return")}</button>
                   </div>
                 </div>
             `;
             const dialog = new Dialog({
-                title: '⚠️',
+                title: '⚠️' + lang("dialog_leave_without_save"),
                 content: dialogContent,
-                width: '320px',
+                width: '480px',
                 height: '180px',
                 disableClose: true,
-                destroyCallback: this.closeEditor.bind(this),
             });
             // 绑定按钮事件
             setTimeout(() => {
                 const saveBtn = document.getElementById('confirmDialogConfirmBtn');
                 const cancelBtn = document.getElementById('cancelDialogConfirmBtn');
+                const returnBtn = document.getElementById('returnDialogConfirmBtn');
                 if (saveBtn) {
                     saveBtn.onclick = async () => {
                         try {
@@ -142,11 +148,18 @@ export default class TuiEditor {
                         } catch (e) {
                             showPluginMessage(lang("save_failed") + e);
                         }
+                        this.closeEditor();
                         dialog.destroy();
                     };
                 }
                 if (cancelBtn) {
                     cancelBtn.onclick = () => {
+                        dialog.destroy();
+                        this.closeEditor();
+                    };
+                }
+                if (returnBtn) {
+                    returnBtn.onclick = () => {
                         dialog.destroy();
                     };
                 }
@@ -245,6 +258,10 @@ export default class TuiEditor {
                 showPluginMessage(lang("save_failed") + e);
             }
         };
+    }
+
+    public isAvailable() {
+        return true;
     }
 
     public destroy() {

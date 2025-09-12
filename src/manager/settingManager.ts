@@ -21,6 +21,9 @@ interface IPluginSettings {
 let defaultSetting: IPluginSettings = {
     "imageEditor": IMAGE_EDITOR_KEY.FILERBOT,
     "saveType": "local",
+    "localEditorPath": "",
+    "localEditorArgs": "",
+    "localEditorWaitingDialog": false,
 }
 
 
@@ -36,9 +39,14 @@ let updateTimeout: any = null;
 export function initSettingProperty() {
     tabProperties.push(
         new TabProperty({
-            key: "general", iconKey: "iconSettings", props: [
+            key: "none", iconKey: "iconSettings", props: [
+                new ConfigProperty({ key: "mainTips", type: "TIPS"}),
                 new ConfigProperty({ key: "imageEditor", type: "SELECT", options: Object.values( IMAGE_EDITOR_KEY) }),
                 // new ConfigProperty({ key: "saveType", type: "SELECT", options: ["local"] }),
+                new ConfigProperty({ key: "localEditorPath", type: "PATH" }),
+                new ConfigProperty({ key: "localEditorPath", type: "TEXT" }),
+                new ConfigProperty({ key: "localEditorArgs", type: "TEXTAREA" }),
+                new ConfigProperty({ key: "about", type: "TIPS" }),
             ]
         }),
     );
@@ -52,7 +60,12 @@ export function getTabProperties() {
 export function saveSettings(newSettings: any) {
     // 如果有必要，需要判断当前设备，然后选择保存位置
     debugPush("界面调起保存设置项", newSettings);
-    getPluginInstance().saveData("settings_main.json", JSON.stringify(newSettings, null, 4));
+    getPluginInstance().saveData(getSettingFileName(), JSON.stringify(newSettings, null, 4));
+};
+
+function getSettingFileName() {
+    const SYSTEM_ID = window.siyuan.config.system.id ?? "main";
+    return `settings_${SYSTEM_ID}.json`;
 }
 
 
@@ -65,7 +78,7 @@ export function saveSettings(newSettings: any) {
 export async function loadSettings() {
     let loadResult = null;
     // 这里从文件载入
-    loadResult = await getPluginInstance().loadData("settings_main.json");
+    loadResult = await getPluginInstance().loadData(getSettingFileName());
     debugPush("文件载入设置", loadResult);
     if (loadResult == undefined || loadResult == "") {
         let oldSettings = await transferOldSetting();

@@ -2,7 +2,7 @@
 
 [中文](README_zh_CN.md)
 
-> Edit note image with tui-image-editor or filerobot-image-editor in siyuan-note.
+> Edit note image with tui-image-editor or filerobot-image-editor in [siyuan-note](https://github.com/siyuan-note/siyuan/).
 
 ## Quick Start
 

@@ -17,7 +17,7 @@ import EventHandler from "./manager/eventHandler";
 import { removeStyle, setStyle } from "./manager/setStyle";
 import { bindCommand } from "./manager/shortcutHandler";
 import { generateUUID } from "./utils/common";
-import { initImageEditor } from "./manager/editorHelper";
+import { destroyEditor, initImageEditor } from "./manager/editorHelper";
 
 const STORAGE_NAME = "menu-config";
 
@@ -51,6 +51,8 @@ export default class OGSamplePlugin extends Plugin {
             showMessage("插件载入设置项失败。Load plugin settings faild. " + this.name);
             errorPush(e);
         });
+        // 载入自定义 JS 文件
+        initImageEditor();
     }
 
     onunload(): void {
@@ -58,6 +60,7 @@ export default class OGSamplePlugin extends Plugin {
         this.myEventHandler.unbindHandler();
         // 移除所有已经插入的导航区
         removeStyle();
+        destroyEditor();
         // 清理绑定的宽度监听
         if (window["og_hn_observe"]) {
             for (const key in window["og_hn_observe"]) {

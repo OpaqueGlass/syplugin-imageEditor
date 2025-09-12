@@ -1,3 +1,5 @@
+import { isDebugMode } from "@/logger";
+
 let language = null;
 let emptyLanguageKey: Array<string> = [];
 
@@ -15,7 +17,9 @@ export function lang(key: string) {
     }
     if (language == null || language[key] == null) {
         emptyLanguageKey.push(key);
-        console.error("语言文件未定义该Key", JSON.stringify(emptyLanguageKey));
+        if (isDebugMode()) {
+            console.error("语言文件未定义该Key", JSON.stringify(emptyLanguageKey));
+        }
     }
     return key;
 }

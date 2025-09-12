@@ -9,6 +9,14 @@ export function getToken(): string {
     return "";
 }
 
+export function escapeHTML(str: string): string {
+    return str.replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/"/g, "&quot;")
+              .replace(/'/g, "&#039;");
+}
+
 /**
  * 封装的 showMessage API，自动在消息后添加插件名称
  * @param message 要显示的消息内容
