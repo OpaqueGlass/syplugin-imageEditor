@@ -1,8 +1,8 @@
 
 import { errorPush, logPush } from "@/logger";
-import { fibLangZhCN } from "@/manager/editorLang";
+import { fibLangZhCN, filerbotDarkTheme } from "@/manager/editorLang";
 import { saveImageDistributor } from "@/manager/imageStorageHelper";
-import { isMobile } from "@/syapi";
+import { isDarkMode, isMobile } from "@/syapi";
 import { showPluginMessage } from "@/utils/common";
 import { isZHCN, lang } from "@/utils/lang";
 import { Dialog } from "siyuan";
@@ -26,7 +26,7 @@ export class FilerbotEditor extends BaseImageEditor {
         const ourFloatView = document.createElement('div');
         ourFloatView.id = 'og-image-editor-float-view';
         ourFloatView.style.zIndex = "10";
-        ourFloatView.style.display = "none";
+        // ourFloatView.style.display = "none";
         ourFloatView.style.position = "fixed";
         ourFloatView.style.width = isMobile() ? "100vw" : "80vw";
         ourFloatView.style.height = isMobile() ? "100vh" : "80vh";
@@ -34,10 +34,37 @@ export class FilerbotEditor extends BaseImageEditor {
         ourFloatView.style.left = "50%";
         ourFloatView.style.transform = "translate(-50%, -50%)";
         document.body.appendChild(ourFloatView);
+        this.setStyle();
+    }
+
+    private setStyle() {
+        const oldstyle = document.getElementById('filerbot-image-editor-style-fix');
+        oldstyle?.remove();
+        const style = document.createElement('style');
+        style.id = 'filerbot-image-editor-style-fix';
+        style.innerHTML = 
+        isDarkMode() ? `.irhhtN {
+            background-color: #1e1e1e !important;
+        }
+        .irhhtN:hover{
+            background-color: unset !important;
+        }` : "" +
+        `
+        
+        #og-image-editor-float-view {
+            display: none;
+        }
+        #og-image-editor-float-view:has(> *) {
+            display: block;
+        }
+        `;
+        const head = document.getElementsByTagName('head')[0];
+        head.appendChild(style);
+        
     }
 
     public async showImageEditor({ source, filePath, element }: { source: string; filePath: string, element: HTMLElement }) {
-        
+        this.setStyle();
         this.editorContainer = document.getElementById('og-image-editor-float-view') as HTMLDivElement;
         if (!this.editorContainer) {
             this.destroy();
@@ -59,7 +86,7 @@ export class FilerbotEditor extends BaseImageEditor {
             document.body.appendChild(this.mask);
         }
         this.mask.style.display = 'block';
-        this.editorContainer.style.display = 'block';
+        // this.editorContainer.style.display = 'block';
 
         // 点击遮罩关闭编辑器
         this.mask.addEventListener("mouseup", (event) => {
@@ -124,6 +151,9 @@ export class FilerbotEditor extends BaseImageEditor {
             const TOOLS = window.FilerobotImageEditor.TOOLS;
             const config = {
                 source,
+                theme: isDarkMode() ? {
+                    "palette": filerbotDarkTheme
+                } : undefined,
                 annotationsCommon: {
                     fill: '#000000',
                     stroke: '#ff0000',
@@ -191,7 +221,7 @@ export class FilerbotEditor extends BaseImageEditor {
         });
     }
     private closeEditor() {
-        this.editorContainer!.style.display = 'none';
+        // this.editorContainer!.style.display = 'none';
         this.mask!.style.display = 'none';
         this.filerobotImageEditor.terminate();
     }
