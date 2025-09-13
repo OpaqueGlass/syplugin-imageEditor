@@ -2,7 +2,7 @@
 
 [English](./README.md)
 
-> 在[思源笔记](https://github.com/siyuan-note/siyuan/)中使用开源图片编辑器修改本地笔记图片。
+> 在[思源笔记](https://github.com/siyuan-note/siyuan/)中使用开源图片编辑器（filerobot/tui）修改本地笔记图片。
 
 > [!WARNING]
 > 
@@ -22,6 +22,8 @@
   - 不支持；
 - Q：手机端支持吗？
   - 不支持；
+- Q: 有时提示“很抱歉，图片编辑器崩溃退出，未保存的编辑已经丢失，请重试或选择其他图片编辑器”
+  - 请避免使用画笔模式快速操作，或换用其他图片编辑器；
 
 ## 参考与感谢
 

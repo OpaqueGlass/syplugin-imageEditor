@@ -1,4 +1,3 @@
-
 import { errorPush, logPush } from "@/logger";
 import { fibLangZhCN, filerbotDarkTheme } from "@/manager/editorLang";
 import { saveImageDistributor } from "@/manager/imageStorageHelper";
@@ -13,6 +12,8 @@ export class FilerbotEditor extends BaseImageEditor {
     private editorContainer: HTMLDivElement | null = null;
     private mask: HTMLDivElement | null = null;
     private unsavedModify: boolean = false;
+    private observer: MutationObserver | null = null;
+    private isClosingNormally: boolean = false;
 
     private getToken() {
         return localStorage.getItem('token') || '';
@@ -26,7 +27,7 @@ export class FilerbotEditor extends BaseImageEditor {
         const ourFloatView = document.createElement('div');
         ourFloatView.id = 'og-image-editor-float-view';
         ourFloatView.style.zIndex = "10";
-        // ourFloatView.style.display = "none";
+        ourFloatView.style.display = "none";
         ourFloatView.style.position = "fixed";
         ourFloatView.style.width = isMobile() ? "100vw" : "80vw";
         ourFloatView.style.height = isMobile() ? "100vh" : "80vh";
@@ -50,13 +51,13 @@ export class FilerbotEditor extends BaseImageEditor {
             background-color: unset !important;
         }` : "" +
         `
-        
+        /*
         #og-image-editor-float-view {
             display: none;
         }
         #og-image-editor-float-view:has(> *) {
             display: block;
-        }
+        }*/
         `;
         const head = document.getElementsByTagName('head')[0];
         head.appendChild(style);
@@ -65,6 +66,7 @@ export class FilerbotEditor extends BaseImageEditor {
 
     public async showImageEditor({ source, filePath, element }: { source: string; filePath: string, element: HTMLElement }) {
         this.setStyle();
+        this.isClosingNormally = false; // 重置关闭状态
         this.editorContainer = document.getElementById('og-image-editor-float-view') as HTMLDivElement;
         if (!this.editorContainer) {
             this.destroy();
@@ -86,7 +88,21 @@ export class FilerbotEditor extends BaseImageEditor {
             document.body.appendChild(this.mask);
         }
         this.mask.style.display = 'block';
-        // this.editorContainer.style.display = 'block';
+        this.editorContainer.style.display = 'block';
+        if (this.observer) {
+            this.observer.disconnect();
+            this.observer = null;
+        }
+        // 监视编辑器容器的子元素变化
+        this.observer = new MutationObserver((mutationsList) => {
+            for (const mutation of mutationsList) {
+                if (mutation.type === 'childList' && this.editorContainer && this.editorContainer.childElementCount === 0) {
+                    this.handleEditorClose();
+                    break;
+                }
+            }
+        });
+        this.observer.observe(this.editorContainer, { childList: true });
 
         // 点击遮罩关闭编辑器
         this.mask.addEventListener("mouseup", (event) => {
@@ -136,13 +152,6 @@ export class FilerbotEditor extends BaseImageEditor {
                 }
             }, 0);
         }, true);
-        // this.mask.onclick = () => {
-        //     this.editorContainer!.style.display = 'none';
-        //     this.mask!.style.display = 'none';
-        //     if (this.filerobotImageEditor) {
-        //         this.filerobotImageEditor.terminate();
-        //     }
-        // };
 
         // 首次加载或已销毁时，初始化编辑器
         if (!this.filerobotImageEditor) {
@@ -220,15 +229,40 @@ export class FilerbotEditor extends BaseImageEditor {
             },
         });
     }
-    private closeEditor() {
-        // this.editorContainer!.style.display = 'none';
-        this.mask!.style.display = 'none';
-        this.filerobotImageEditor.terminate();
+
+    private handleEditorClose() {
+        if (!this.isClosingNormally) {
+            showPluginMessage(lang("editor_unexpected_exit_tip"), 7000, "error");
+            logPush("Filerobot editor closed unexpectedly.");
+        }
+
+        if (this.mask) {
+            this.mask.style.display = 'none';
+        }
+
+        if (this.editorContainer) {
+            this.editorContainer.style.display = 'none';
+        }
+
+        if (this.observer) {
+            this.observer.disconnect();
+            this.observer = null;
+        }
     }
+
+    private closeEditor() {
+        this.isClosingNormally = true;
+        if (this.filerobotImageEditor) {
+            this.filerobotImageEditor.terminate();
+        }
+        // The MutationObserver will handle the rest
+    }
+
     public isAvailable() {
         return true;
     }
     public destroy() {
+        this.closeEditor();
         // 移除插入的 script
         const script = document.querySelector('script[src*="filerobot-image-editor"]');
         if (script && script.parentNode) {
@@ -243,7 +277,6 @@ export class FilerbotEditor extends BaseImageEditor {
         document.querySelectorAll("#og-image-editor-float-view").forEach((child) => {
             child.remove();
         });
-        this.filerobotImageEditor?.terminate();
         this.filerobotImageEditor = null;
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <select class="b3-select fn__flex-center fn__size200" v-model="model" > <!--@change="updateSingleSetting.bind(key)"-->
-        <option v-for="(item, index) in props.optionNames" :value="optionKeys[index]">{{ item }}</option>
+        <option v-for="(item, index) in props.optionNames" :value="optionKeys[index]" :title="optionDesps[index]">{{ item }}</option>
     </select>
 </template>
 <script lang="ts" setup>
@@ -9,6 +9,7 @@
 const props = defineProps<{
     optionNames: Array<string>,
     optionKeys: Array<string>,
+    optionDesps: Array<string>,
 }>();
 // 获取optionNames
 const model = defineModel({ type: String})

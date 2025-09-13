@@ -19,12 +19,12 @@
   ],
   "disabledInPublish": true,
   "displayName": {
-    "en_US": "Image Editor",
-    "zh_CN": "图片编辑器"
+    "en_US": "Image Editor (Preview Edition)",
+    "zh_CN": "笔记图片编辑器（预览版）"
   },
   "description": {
     "en_US": "Edit note image with tui-image-editor or filerobot-image-editor in siyuan-note",
-    "zh_CN": "在思源笔记中使用开源图片编辑器修改本地笔记图片"
+    "zh_CN": "在思源笔记中使用开源图片编辑器或调起本地编辑器修改本地笔记图片"
   },
   "readme": {
     "en_US": "README.md",

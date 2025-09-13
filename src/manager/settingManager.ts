@@ -19,7 +19,7 @@ interface IPluginSettings {
     
 };
 let defaultSetting: IPluginSettings = {
-    "imageEditor": IMAGE_EDITOR_KEY.FILERBOT,
+    "imageEditor": IMAGE_EDITOR_KEY.TUI,
     "saveType": "local",
     "localEditorPath": "",
     "localEditorArgs": "",

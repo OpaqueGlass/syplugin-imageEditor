@@ -1,5 +1,5 @@
 <template>
-    <div class="fn__flex-1 fn__flex config__panel" style="width: auto; height: 100%; max-width: 1280px;">
+    <div  :class="{'fn__flex-1': tabList.length != 1, ' fn__flex': tabList.length != 1, 'config__panel': tabList.length != 1}" style="width: auto; height: 100%; max-width: 1280px;">
         <ul class="b3-tab-bar b3-list b3-list--background" v-if="tabList.length != 1">
             <!-- 这里可以插入设置项目，但是似乎没有必要 -->
             <li v-for="(tab, index) in tabList" :key="index"
@@ -24,7 +24,7 @@
                                         <Switch v-model="g_setting[item.key]"></Switch>
                                     </template>
                                     <template v-else-if="item.type == 'SELECT'">
-                                        <Select :option-names="item.optionNames" :option-keys="item.options"
+                                        <Select :option-names="item.optionNames" :option-keys="item.options" :option-desps="item.optionDesps"
                                             v-model="g_setting[item.key]"></Select>
                                     </template>
                                     <template v-else-if="item.type == 'NUMBER'">

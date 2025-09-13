@@ -4,8 +4,8 @@ import TuiEditor from "@/editor/tuiEditor";
 import { logPush } from "@/logger";
 
 export const IMAGE_EDITOR_KEY = {
-    FILERBOT: 'filerbot',
     TUI: 'tui',
+    FILERBOT: 'filerbot',
     LOCAL: "local"
 }
 const EDITOR = {
