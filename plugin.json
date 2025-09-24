@@ -15,7 +15,8 @@
   "frontends": [
     "desktop",
     "browser-desktop",
-    "browser-mobile"
+    "browser-mobile",
+    "mobile"
   ],
   "disabledInPublish": true,
   "displayName": {

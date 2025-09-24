@@ -26,7 +26,7 @@
     "local_editor_backend_error": "当前后端环境不支持本地编辑器调用",
 
     "setting_about_name": "关于",
-    "setting_about_desp": "作者：<a target='_blank' href='https://github.com/OpaqueGlass'>OpaqueGlass</a>；<br/>问题反馈&赞助支持：<a target='_blank' href='https://github.com/OpaqueGlass/syplugin-imageEditor'>github</a> 或 <a target='_blank' href='https://wj.qq.com/s2/12395364/b69f/'>填写问卷</a>；<br/>插件基于<a target='_blank' href='https://www.gnu.org/licenses/agpl-3.0.html'>AGPLv3</a>授权使用；<br/>使用前，请阅读“README.md”说明文档或集市下载页说明文档。",
+    "setting_about_desp": "作者：<a target='_blank' href='https://github.com/OpaqueGlass'>OpaqueGlass</a>；<br/>问题反馈&赞助支持：<a target='_blank' href='https://github.com/OpaqueGlass/syplugin-imageEditor'>github</a> 或 <a target='_blank' href='https://wj.qq.com/s2/12395364/b69f/'>填写问卷</a>；<br/>插件基于<a target='_blank' href='https://www.gnu.org/licenses/agpl-3.0.html'>AGPLv3</a>协议授权使用；<br/>使用前，请阅读“README.md”说明文档或集市下载页说明文档。",
 
     "addTopBarIcon": "使用插件添加一个顶栏按钮",
     "cancel": "取消",
@@ -66,6 +66,7 @@
     "msg_call_external_editor_failed": "本地编辑器调用失败，错误信息：",
     "msg_called_external_editor": "已调用本地编辑器，编辑完成后请手动保存、然后关闭编辑器。",
     "msg_not_select_path": "未选择路径或没有选择有效路径",
+    "msg_select_editor_not_usable": "所选图片编辑器在当前环境下不可用，临时调整为默认图片编辑器",
     "only_available_in_client": "仅在客户端中可用",
     "msg_not_set_exec_path": "未设置本地编辑器路径，请在设置中完善"
 }

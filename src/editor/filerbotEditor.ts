@@ -4,8 +4,9 @@ import { saveImageDistributor } from "@/manager/imageStorageHelper";
 import { isDarkMode, isMobile } from "@/syapi";
 import { showPluginMessage } from "@/utils/common";
 import { isZHCN, lang } from "@/utils/lang";
-import { Dialog } from "siyuan";
+import { Dialog, Protyle } from "siyuan";
 import BaseImageEditor from "./baseImageEditor";
+import { refreshImg } from "@/manager/editorHelper";
 
 export class FilerbotEditor extends BaseImageEditor {
     private filerobotImageEditor: any = null;
@@ -26,11 +27,14 @@ export class FilerbotEditor extends BaseImageEditor {
         document.head.appendChild(script);
         const ourFloatView = document.createElement('div');
         ourFloatView.id = 'og-image-editor-float-view';
+        if (isMobile()) {
+            ourFloatView.className = "viewer-container";
+        }
         ourFloatView.style.zIndex = "10";
         ourFloatView.style.display = "none";
         ourFloatView.style.position = "fixed";
         ourFloatView.style.width = isMobile() ? "100vw" : "80vw";
-        ourFloatView.style.height = isMobile() ? "100vh" : "80vh";
+        ourFloatView.style.height = isMobile() ? "90vh" : "80vh";
         ourFloatView.style.top = "50%";
         ourFloatView.style.left = "50%";
         ourFloatView.style.transform = "translate(-50%, -50%)";
@@ -64,7 +68,7 @@ export class FilerbotEditor extends BaseImageEditor {
         
     }
 
-    public async showImageEditor({ source, filePath, element }: { source: string; filePath: string, element: HTMLElement }) {
+    public async showImageEditor({ source, filePath, element, protyle }: { source: string; filePath: string, element: HTMLElement, protyle: Protyle }) {
         this.setStyle();
         this.isClosingNormally = false; // 重置关闭状态
         this.editorContainer = document.getElementById('og-image-editor-float-view') as HTMLDivElement;
@@ -193,9 +197,9 @@ export class FilerbotEditor extends BaseImageEditor {
                     stroke: '#ff0000',
                     strokeWidth: 1,
                 },
-                tabsIds: [TABS.ADJUST, TABS.ANNOTATE, TABS.RESIZE, TABS.FILTERS],
+                tabsIds: [TABS.ADJUST, TABS.ANNOTATE, TABS.RESIZE, TABS.FILTERS, TABS.FINETUNE],
                 defaultTabId: TABS.ANNOTATE,
-                defaultToolId: TOOLS.TEXT,
+                defaultToolId: TOOLS.RECT,
                 onBeforeSave: (editedImageObject: any) => {
                     return false;
                 },
@@ -221,9 +225,7 @@ export class FilerbotEditor extends BaseImageEditor {
                 } catch (e) {
                     errorPush('图片上传失败', e);
                 }
-                let src = element.getAttribute('src') || '';
-                let base = src.split('?')[0];
-                element.setAttribute('src', base + '?t=' + Date.now());
+                refreshImg(element, protyle);
                 this.unsavedModify = false;
                 return 0;
             },

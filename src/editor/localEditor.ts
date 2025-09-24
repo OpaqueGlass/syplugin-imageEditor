@@ -2,18 +2,20 @@ import { errorPush, logPush } from "@/logger";
 import { getReadOnlyGSettings } from "@/manager/settingManager";
 import { escapeHTML, showPluginMessage } from "@/utils/common";
 import { isValidStr } from "@/utils/commonCheck";
-import { Dialog, getBackend, getFrontend } from "siyuan";
+import { Dialog, getBackend, getFrontend, Protyle } from "siyuan";
 import BaseImageEditor from "./baseImageEditor";
 import { lang } from "@/utils/lang";
+import { refreshImg } from "@/manager/editorHelper";
 
 export class LocalCmdEditor extends BaseImageEditor {
     public async init() {
         
     }
 
-    public async showImageEditor({ source, filePath, element }: { source: string; filePath: string, element: HTMLElement }) {
+    public async showImageEditor({ source, filePath, element, protyle }: { source: string; filePath: string, element: HTMLElement, protyle: Protyle }) {
         const { spawn } = window.require("child_process");
         const path = window.require("path");
+        // 本地路径需要去除参数
         let src = element.getAttribute('src') || '';
         let base = src.split('?')[0];
         logPush("打开本地编辑器", path.join(window.siyuan.config.system.dataDir, base));
@@ -82,9 +84,7 @@ export class LocalCmdEditor extends BaseImageEditor {
                     if (refreshBtn) {
                         refreshBtn.onclick = () => {
                             dialog.destroy();
-                            let src = element.getAttribute('src') || '';
-                            let base = src.split('?')[0];
-                            element.setAttribute('src', base + '?t=' + Date.now());
+                            refreshImg(element, protyle);
                         };
                     }
                     if (cancelBtn) {
@@ -95,9 +95,7 @@ export class LocalCmdEditor extends BaseImageEditor {
                     }
                 }, 0);
             }
-            let src = element.getAttribute('src') || '';
-            let base = src.split('?')[0];
-            element.setAttribute('src', base + '?t=' + Date.now());
+            refreshImg(element, protyle);
         });
         
     }

@@ -9,6 +9,7 @@ export default class EventHandler {
     private handlerBindList: Record<string, (arg1: CustomEvent)=>void> = {
         "loaded-protyle-static": this.loadedProtyleRetryEntry.bind(this), // mutex需要访问EventHandler的属性
         "open-menu-image": this.openMenuImage.bind(this),
+        "click-editorcontent": this.clickEditorContent.bind(this),
     };
     // 关联的设置项，如果设置项对应为true，则才执行绑定
     private relateGsettingKeyStr: Record<string, string> = {
@@ -61,8 +62,29 @@ export default class EventHandler {
                         source: element.querySelector("img").getAttribute("src"),
                         filePath: "data/" + element.querySelector("img").getAttribute("data-src"),
                         element: element.querySelector("img"),
+                        protyle: protyle.getInstance(),
                     });
                 }
+            });
+        }
+    }
+
+    async clickEditorContent(customEvent: CustomEvent<IEventBusMap["click-editorcontent"]>) {
+        const { protyle, event } = customEvent.detail;
+        logPush("clickEditorContent", protyle, event);
+        if (event.target && (event.target as HTMLElement).tagName === "IMG" && event.altKey) {
+            const element = event.target as HTMLElement;
+            if (!element.getAttribute("data-src")) {
+                return;
+            }
+            if (!element.getAttribute("src") || !element.getAttribute("src").startsWith("asset")) {
+                return;
+            }
+            showImageEditor({
+                source: element.getAttribute("src"),
+                filePath: "data/" + element.getAttribute("data-src"),
+                element: element,
+                protyle: protyle.getInstance(),
             });
         }
     }

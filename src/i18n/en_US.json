@@ -61,6 +61,8 @@
     "msg_not_set_exec_path": "Please set the local editor path in plugin settings. ",
     "msg_called_external_editor": "The local editor has been invoked. Please save manually and close the editor when editing is complete. ",
     "msg_not_select_path": "Not Select A Valid Path",
+    "msg_select_editor_not_usable": "The selected image editor is not available in the current environment. Temporarily switched to the default image editor.",
+
     "only_available_in_client": "Only Available in Client",
 
     "setting_mainTips_name": "Tips",

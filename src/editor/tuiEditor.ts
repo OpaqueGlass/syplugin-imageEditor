@@ -1,10 +1,11 @@
 import { logPush } from "@/logger";
+import { refreshImg } from "@/manager/editorHelper";
 import { tuiDark, tuiLang, tuiLight } from "@/manager/editorLang";
 import { saveImageDistributor } from "@/manager/imageStorageHelper";
 import { isDarkMode, isMobile } from "@/syapi";
 import { showPluginMessage } from "@/utils/common";
 import { isZHCN, lang } from "@/utils/lang";
-import { Dialog } from "siyuan";
+import { Dialog, Protyle } from "siyuan";
 import ImageEditor from "tui-image-editor";
 import "tui-image-editor/dist/tui-image-editor.css";
 
@@ -59,7 +60,7 @@ export default class TuiEditor {
         if (editorDiv) editorDiv.innerHTML = '';
     }
 
-    public async showImageEditor({ source, filePath, element }: { source: string; filePath: string, element: HTMLElement }) {
+    public async showImageEditor({ source, filePath, element, protyle }: { source: string; filePath: string, element: HTMLElement, protyle: Protyle }) {
         // 获取/创建浮层容器
         // 获取/创建浮层容器
         this.editorContainer = document.getElementById('og-image-editor-float-view') as HTMLDivElement;
@@ -142,9 +143,7 @@ export default class TuiEditor {
                         try {
                             const base64 = this.imageEditor.toDataURL();
                             await saveImageDistributor(filePath, base64);
-                            let src = element.getAttribute('src') || '';
-                            let base = src.split('?')[0];
-                            element.setAttribute('src', base + '?t=' + Date.now());
+                            refreshImg(element, protyle);
                         } catch (e) {
                             showPluginMessage(lang("save_failed") + e);
                         }
@@ -249,19 +248,39 @@ export default class TuiEditor {
                 const base64 = this.imageEditor.toDataURL();
                 await saveImageDistributor(filePath, base64);
                 // 刷新图片
-                let src = element.getAttribute('src') || '';
-                let base = src.split('?')[0];
-                element.setAttribute('src', base + '?t=' + Date.now());
+                refreshImg(element, protyle);
                 this.unsavedModify = false;
                 showPluginMessage(lang("save_success"), 3000);
             } catch (e) {
                 showPluginMessage(lang("save_failed") + e);
             }
         };
+        // 添加关闭按钮
+        // let closeBtn = document.getElementById('tui-image-editor-close-btn') as HTMLButtonElement;
+        // if (!closeBtn) {
+        //     closeBtn = document.createElement('button');
+        //     closeBtn.id = 'tui-image-editor-close-btn';
+        //     closeBtn.innerText = lang("editor_close");
+        //     closeBtn.style.position = 'absolute';
+        //     closeBtn.style.right = '24px';
+        //     closeBtn.style.top = '64px';
+        //     closeBtn.style.zIndex = '20';
+        //     closeBtn.style.padding = '8px 24px';
+        //     closeBtn.style.fontSize = '16px';
+        //     closeBtn.style.background = '#f56c6c';
+        //     closeBtn.style.color = '#fff';
+        //     closeBtn.style.border = 'none';
+        //     closeBtn.style.borderRadius = '4px';
+        //     closeBtn.style.cursor = 'pointer';
+        //     this.editorContainer.appendChild(closeBtn);
+        // }
+        // closeBtn.onclick = () => {
+        //     this.closeEditor();
+        // };
     }
 
     public isAvailable() {
-        return true;
+        return true && !isMobile();
     }
 
     public destroy() {
