@@ -1,5 +1,5 @@
 <template>
-    <div  :class="{'fn__flex-1': tabList.length != 1, ' fn__flex': tabList.length != 1, 'config__panel': tabList.length != 1}" style="width: auto; height: 100%; max-width: 1280px;">
+    <div :class="{'fn__flex-1': tabList.length != 1, ' fn__flex': tabList.length != 1, 'config__panel': tabList.length != 1, 'b3-dialog__content': tabList.length == 1}" style="width: auto; height: 100%; max-width: 1280px;">
         <ul class="b3-tab-bar b3-list b3-list--background" v-if="tabList.length != 1">
             <!-- 这里可以插入设置项目，但是似乎没有必要 -->
             <li v-for="(tab, index) in tabList" :key="index"
