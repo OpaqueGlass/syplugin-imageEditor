@@ -2,7 +2,7 @@
   "name": "syplugin-imageEditor",
   "author": "OpaqueGlass",
   "url": "https://github.com/OpaqueGlass/syplugin-imageEditor",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "minAppVersion": "2.9.0",
   "backends": [
     "windows",
@@ -25,7 +25,7 @@
   },
   "description": {
     "en_US": "Edit note image with tui-image-editor or filerobot-image-editor in siyuan-note",
-    "zh_CN": "在思源笔记中使用开源图片编辑器或调起本地编辑器修改本地笔记图片"
+    "zh_CN": "在思源笔记中使用开源图片编辑器或调起本地编辑器修改本地笔记图片。提供裁剪、旋转、简单标注等功能。"
   },
   "readme": {
     "en_US": "README.md",
