@@ -2,7 +2,7 @@
   "name": "syplugin-imageEditor",
   "author": "OpaqueGlass",
   "url": "https://github.com/OpaqueGlass/syplugin-imageEditor",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "minAppVersion": "2.9.0",
   "backends": [
     "windows",

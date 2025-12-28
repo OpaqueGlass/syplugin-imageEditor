@@ -15,7 +15,8 @@
   2. Move the folder to `workspace/data/plugins/`,  
   3. Rename the folder to `syplugin-imageEditor`;  
 - Enable the plugin;  
-- Right-click on an image → Plugins → Edit with Image Editor;  
+- Right-click on an image → Plugins → Edit with Image Editor; 
+- `Alt+ left mouse button` on the image (desktop only) to open the editor quickly.
 
 > ⭐ If this project is helpful to you, please consider giving it a Star!
 
