@@ -16,6 +16,9 @@
     "setting_localEditorPath_desp": "选择或填写本地图片编辑器路径",
     "editor_unexpected_exit_tip": "很抱歉，图片编辑器崩溃退出，未保存的编辑已经丢失，请重试或选择其他图片编辑器",
 
+    "setting_compatibilityMode_name": "兼容模式",
+    "setting_compatibilityMode_desp": "开启此项以解决部分设备上图片修改但未刷新的问题。",
+
     "setting_mainTips_name": "提示",
     "setting_mainTips_desp": "1）设置项以siyuan-systemId为区分，不同系统设置项独立设定；2）本地编辑器可能会锁定图片，导致思源获取锁失败而直接退出。",
 

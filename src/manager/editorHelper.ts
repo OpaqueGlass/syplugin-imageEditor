@@ -4,7 +4,8 @@ import TuiEditor from "@/editor/tuiEditor";
 import { logPush } from "@/logger";
 import { isMobile } from "@/syapi";
 import { showPluginMessage } from "@/utils/common";
-import { Protyle } from "siyuan";
+import { getBackend, getFrontend, Protyle } from "siyuan";
+import { getReadOnlyGSettings } from "./settingManager";
 
 export const IMAGE_EDITOR_KEY = {
     TUI: 'tui',
@@ -50,7 +51,9 @@ export function destroyEditor() {
 
 export function refreshImg(imgElement, protyle) {
     logPush("protyle", protyle);
-    if (protyle) {
+    const frontEnd = getFrontend();
+    const g_settings = getReadOnlyGSettings();
+    if (protyle && ["desktop"].includes(frontEnd) && g_settings["compatibilityMode"] == false) {
         protyle.reload();
     } else {
         let src = imgElement.getAttribute('src') || '';

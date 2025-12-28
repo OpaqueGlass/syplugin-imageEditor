@@ -12,6 +12,10 @@
     "setting_saveType_option_local": "Save Locally",
     "setting_saveType_option_local_desp": "Save images to the local file system.",
     "setting_column_none_name": "No Column",
+
+    "setting_compatibilityMode_name": "Refresh Compatibility Mode",
+    "setting_compatibilityMode_desp": "Enable this option to resolve the issue where images do not refresh after saving.",
+
     "addTopBarIcon": "Add a top bar button using the plugin",
     "cancel": "Cancel",
     "save": "Save",

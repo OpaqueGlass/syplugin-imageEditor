@@ -24,6 +24,7 @@ let defaultSetting: IPluginSettings = {
     "localEditorPath": "",
     "localEditorArgs": "",
     "localEditorWaitingDialog": false,
+    "compatibilityMode": true,
 }
 
 
@@ -46,6 +47,7 @@ export function initSettingProperty() {
                 new ConfigProperty({ key: "localEditorPath", type: "PATH" }),
                 new ConfigProperty({ key: "localEditorPath", type: "TEXT" }),
                 new ConfigProperty({ key: "localEditorArgs", type: "TEXTAREA" }),
+                new ConfigProperty({ key: "compatibilityMode", type: "SWITCH" }),
                 new ConfigProperty({ key: "about", type: "TIPS" }),
             ]
         }),
