@@ -53,11 +53,26 @@ export function refreshImg(imgElement, protyle) {
     logPush("protyle", protyle);
     const frontEnd = getFrontend();
     const g_settings = getReadOnlyGSettings();
-    if (protyle && ["desktop"].includes(frontEnd) && g_settings["compatibilityMode"] == false) {
+    // 暂时禁用掉
+    if (protyle && ["desktop", "desktop-window"].includes(frontEnd) && g_settings["compatibilityMode"] == false && false) {
         protyle.reload();
     } else {
-        let src = imgElement.getAttribute('src') || '';
-        let base = src.split('?')[0];
-        imgElement.setAttribute('src', base + '?t=' + Date.now());
+        const src = imgElement.getAttribute('src') || imgElement.getAttribute('data-src') || '';
+        if (!src) {
+            logPush("refreshImg: 未获取到图片 src，跳过缓存刷新");
+            return;
+        }
+        const base = src.split('?')[0];
+        const modified = `${base}?t=${Date.now()}`;
+        const dataSrc = imgElement.getAttribute('data-src');
+        // 同步刷新引用同一资源的其它图片
+        if (dataSrc) {
+            document.querySelectorAll(`img[data-src="${dataSrc}"]`).forEach((el) => {
+                el.setAttribute('src', modified);
+            });
+        } else {
+            imgElement.setAttribute('src', modified);
+        }
+        protyle.reload();
     }
 }

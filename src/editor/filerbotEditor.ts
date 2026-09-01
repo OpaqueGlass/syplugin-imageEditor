@@ -220,13 +220,19 @@ export class FilerbotEditor extends BaseImageEditor {
             },
             onSave: async (editedImageObject: any, designState: any) => {
                 logPush('保存图片', editedImageObject, designState);
+                let saved = false;
                 try {
-                    await saveImageDistributor(filePath, editedImageObject.imageBase64);
+                    saved = await saveImageDistributor(filePath, editedImageObject.imageBase64);
                 } catch (e) {
                     errorPush('图片上传失败', e);
+                    showPluginMessage(lang("save_failed") + e, 5000, "error");
+                    return 0;
                 }
-                refreshImg(element, protyle);
-                this.unsavedModify = false;
+                if (saved) {
+                    showPluginMessage(lang("save_success"), 3000);
+                    setTimeout(()=>{refreshImg(element, protyle)}, 300);
+                    this.unsavedModify = false;
+                }
                 return 0;
             },
         });
