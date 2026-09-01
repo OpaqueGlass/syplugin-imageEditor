@@ -8,7 +8,7 @@ export function setLanguage(lang:any) {
 }
 
 export function isZHCN() {
-    return window.siyuan.config.appearance.lang === 'zh_CN';
+    return window.siyuan.config.appearance.lang === 'zh_CN' || window.siyuan.config.appearance.lang === 'zh-CN';
 }
 
 export function lang(key: string) {

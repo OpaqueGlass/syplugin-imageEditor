@@ -9,3 +9,4 @@ dist
 build
 tmp
 scripts/devInfo.json
+pnpm-workspace.yaml

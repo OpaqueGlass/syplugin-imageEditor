@@ -180,7 +180,9 @@ export default class TuiEditor {
                     height: '100%',
                 },
                 menuBarPosition: 'bottom',
-                locale: isZHCN() ? tuiLang: undefined
+                // 非中文环境下必须传对象（空对象 {} 让 TUI 回退到内置英文 key），
+                // 不能传 undefined，否则 Locale.localize 会执行 undefined['Load'] 而报错
+                locale: isZHCN() ? tuiLang : {}
             },
             cssMaxWidth: isMobile()? document.documentElement.clientWidth : 700,
             cssMaxHeight: isMobile()? document.documentElement.clientHeight : 500,
