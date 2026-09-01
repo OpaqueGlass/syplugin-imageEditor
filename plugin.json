@@ -2,7 +2,7 @@
   "name": "syplugin-imageEditor",
   "author": "OpaqueGlass",
   "url": "https://github.com/OpaqueGlass/syplugin-imageEditor",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "minAppVersion": "2.9.0",
   "backends": [
     "windows",
@@ -20,16 +20,19 @@
   ],
   "disabledInPublish": true,
   "displayName": {
-    "en_US": "Image Editor (Preview Edition)",
-    "zh_CN": "笔记图片编辑器（预览版）"
+    "default": "Image Editor (Preview Edition)",
+    "zh_CN": "笔记图片编辑器（预览版）",
+    "zh-CN": "笔记图片编辑器（预览版）"
   },
   "description": {
-    "en_US": "Edit note image with tui-image-editor or filerobot-image-editor in siyuan-note",
-    "zh_CN": "在思源笔记中使用开源图片编辑器或调起本地编辑器修改本地笔记图片。提供裁剪、旋转、简单标注等功能。"
+    "default": "Edit note image with tui-image-editor or filerobot-image-editor in siyuan-note",
+    "zh_CN": "在思源笔记中使用开源图片编辑器或调起本地编辑器修改本地笔记图片。提供裁剪、旋转、简单标注等功能。",
+    "zh-CN": "在思源笔记中使用开源图片编辑器或调起本地编辑器修改本地笔记图片。提供裁剪、旋转、简单标注等功能。"
   },
   "readme": {
-    "en_US": "README.md",
-    "zh_CN": "README_zh_CN.md"
+    "default": "README.md",
+    "zh_CN": "README_zh_CN.md",
+    "zh-CN": "README_zh_CN.md"
   },
   "funding": {
     "custom": [
